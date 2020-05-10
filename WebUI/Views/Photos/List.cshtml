@@ -1,0 +1,21 @@
+﻿@using Domain.Entities
+
+@model IEnumerable<Photo>
+
+
+
+@{
+    ViewBag.Title = "List";
+}
+@foreach (Photo photo in Model)
+{
+    <div>
+        <h3>@photo.Name</h3>
+        <p>@photo.PhotoFormat</p>
+        <h2>@photo.Price.ToString("# грн")</h2>
+    </div>
+    <hr />
+}
+
+
+
