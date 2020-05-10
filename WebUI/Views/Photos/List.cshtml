@@ -1,6 +1,6 @@
-﻿@using Domain.Entities
+﻿@using WebUI.Models
 
-@model IEnumerable<Photo>
+@model PhotosListViewModel
 
 
 
@@ -8,7 +8,7 @@
     ViewBag.Title = "List";
 }
 
-@foreach (Photo photo in Model)
+@foreach (var photo in Model.Photos)
 {
     <div>
         <h5 align="center">@photo.Name - для формата:@photo.PhotoFormat</h5>
@@ -18,6 +18,10 @@
     </div>
     <hr />
 }
+
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x}))
+</div>
 
 
 
