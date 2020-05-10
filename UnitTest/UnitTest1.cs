@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using Domain.Abstract;
 using Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using WebUI.Controllers;
+using WebUI.HtmlHelpers;
+using WebUI.Models;
 
 namespace UnitTest
 {
@@ -36,6 +39,31 @@ namespace UnitTest
             Assert.AreEqual(photos[0].Name, "PService4");
             Assert.AreEqual(photos[1].Name, "PService5");
 
+        }
+
+        [TestMethod]
+        public void Can_Generate_Page_Links()
+        {
+            //организация 
+            HtmlHelper myHelper = null;
+            PagingInfo pagingInfo = new PagingInfo
+            {
+                CurrentPage =2,
+                TotalItems = 28,
+                ItemsPerPage = 10
+            };
+
+            Func<int, string> pageUrlDelegate = i => "Page" + i;
+
+            //Действие
+            MvcHtmlString result = myHelper.PageLinks(pagingInfo, pageUrlDelegate);
+
+            //Утверждение
+            Assert.AreEqual(
+                @"<a class=""btn btn-default"" href=""Page1"">1</a>"
+              + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
+              + @"<a class=""btn btn-default"" href=""Page3"">3</a>",
+                result.ToString());
         }
     }
 }
