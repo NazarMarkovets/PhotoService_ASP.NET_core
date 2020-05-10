@@ -7,12 +7,14 @@
 @{
     ViewBag.Title = "List";
 }
+
 @foreach (Photo photo in Model)
 {
     <div>
-        <h3>@photo.Name - @photo.PhotoFormat</h3>
-        <p>@photo.Description</p>
-        <h2>@photo.Price.ToString("# грн")</h2>
+        <h3>@photo.Name - для формата:@photo.PhotoFormat</h3>
+        <h3>@photo.ColorType</h3>
+        <div class="">@photo.Description</div>
+        <h4 align="center">@photo.Price.ToString("# грн")</h4>
     </div>
     <hr />
 }
