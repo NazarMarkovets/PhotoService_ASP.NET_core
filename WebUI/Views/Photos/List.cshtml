@@ -11,9 +11,9 @@
 @foreach (Photo photo in Model)
 {
     <div>
-        <h3>@photo.Name - для формата:@photo.PhotoFormat</h3>
-        <h3>@photo.ColorType</h3>
-        <div class="">@photo.Description</div>
+        <h5 align="center">@photo.Name - для формата:@photo.PhotoFormat</h5>
+        <h5>@photo.ColorType</h5>
+        <div class="description">@photo.Description</div>
         <h4 align="center">@photo.Price.ToString("# грн")</h4>
     </div>
     <hr />

@@ -1,1 +1,17 @@
-﻿
+﻿html, body {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+div.description {
+    background-color: #333;
+    
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    vertical-align: middle;
+    
+    width:100%;
+    
+    padding:50px;
+}
