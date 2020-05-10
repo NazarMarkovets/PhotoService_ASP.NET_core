@@ -13,18 +13,23 @@ namespace WebUI.Controllers
         //от интерфейса IPhotoRepository
 
         private IPhotoRepository repository;
+        public int pageSize = 4;
+
         public PhotosController(IPhotoRepository repo)
         {
             repository = repo;
         }
 
         //Добавление метода действия визуализации представления
-        public ViewResult List()
+        public ViewResult List(int page = 1)
         {
             //полный список услуг
             //предоставляем в функцию данные, которыми необходимо заполнить
             //Model в строго типизированом представлении
-            return View(repository.Photos);
+            return View(repository.Photos
+                .OrderBy(photo =>photo.PhotoId)
+                .Skip((page - 1)*pageSize)
+                .Take(pageSize));
         }
         
     }
