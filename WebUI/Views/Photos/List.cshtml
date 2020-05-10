@@ -10,8 +10,8 @@
 @foreach (Photo photo in Model)
 {
     <div>
-        <h3>@photo.Name</h3>
-        <p>@photo.PhotoFormat</p>
+        <h3>@photo.Name - @photo.PhotoFormat</h3>
+        <p>@photo.Description</p>
         <h2>@photo.Price.ToString("# грн")</h2>
     </div>
     <hr />
