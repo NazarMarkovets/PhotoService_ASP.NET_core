@@ -10,16 +10,31 @@
 
 @foreach (var photo in Model.Photos)
 {
-    <div>
-        <h5 align="center">@photo.Name - для формата:@photo.PhotoFormat</h5>
+    <div class="well">
+        <div class="row">
+            <div class="col-xs-10">
+                <h3><strong>@photo.Name</strong></h3>
+                <h4><strong>@photo.PhotoFormat</strong></h4>
+            </div>
+            <div class="col-xs-2">
+                <h3>
+                <strong class="pull-right label label-primary">@photo.Price.ToString("# грн")</strong>
+                </h3>
+            </div>
+        </div>
+        <span class="lead">
+            @photo.Description
+        </span>
+
+        @*<h5 align="center"> - для формата:</h5>
         <h5>@photo.ColorType</h5>
-        <div class="description">@photo.Description</div>
-        <h4 align="center">@photo.Price.ToString("# грн")</h4>
+        <div class="description"></div>
+        <h4 align="center"></h4>*@
     </div>
-    <hr />
+
 }
 
-<div>
+<div class="btn-group pull-right" >
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x}))
 </div>
 
