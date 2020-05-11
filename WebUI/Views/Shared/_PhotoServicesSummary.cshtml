@@ -1,0 +1,23 @@
+﻿@model Domain.Entities.Photo
+
+<div class="well">
+    <div class="row">
+        <div class="col-xs-10">
+            <h3><strong>@Model.Name</strong></h3>
+            <h4><strong>@Model.PhotoFormat</strong></h4>
+        </div>
+        <div class="col-xs-2">
+            <h3>
+                <strong class="pull-right label label-primary">@Model.Price.ToString("# грн")</strong>
+            </h3>
+        </div>
+    </div>
+    <span class="lead">
+        @Model.Description
+    </span>
+
+    @*<h5 align="center"> - для формата:</h5>
+        <h5>@photo.ColorType</h5>
+        <div class="description"></div>
+        <h4 align="center"></h4>*@
+</div>
