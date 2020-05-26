@@ -36,7 +36,11 @@ namespace WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = repository.Photos.Count()
+                    TotalItems = colortype == null ? 
+                    repository.Photos.Count() : 
+                    repository.Photos
+                    .Where(photo =>photo
+                    .ColorType == colortype).Count()
                 },
                 CurrColorType = colortype
             };

@@ -16,8 +16,9 @@ namespace WebUI.Controllers
         {
             repository = repo;
         }
-        public PartialViewResult Menu()
+        public PartialViewResult Menu(string colortype = null)
         {
+            ViewBag.SelectedColorType = colortype;
             IEnumerable<string> colortypes = repository.Photos
                 .Select(photo => photo.ColorType)
                 .Distinct()

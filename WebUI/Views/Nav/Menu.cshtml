@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<string>
 
-@Html.ActionLink("Home", "List", null, new { @class = "btn btn-block btn-default btn-lg"})
+@Html.ActionLink("Home", "List","Photos", null, new { @class = "btn btn-block btn-default btn-lg"})
 
 @foreach(var link in Model)
 {
@@ -15,6 +15,7 @@
     }, new
     {
         @class = "btn btn-block btn-default btn-lg"
+        +(link == ViewBag.SelectedColorType ? "btn-primary" : "")
     })
 
 }
