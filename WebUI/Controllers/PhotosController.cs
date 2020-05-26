@@ -23,12 +23,12 @@ namespace WebUI.Controllers
         }
 
         //Добавление метода действия визуализации представления
-        public ViewResult List( string genre, int page = 1)
+        public ViewResult List( string colortype, int page = 1)
         {
             PhotosListViewModel model = new PhotosListViewModel
             {
                 Photos = repository.Photos
-                .Where(b =>genre == null || b.ColorType == genre) //for filtering by ColorType
+                .Where(b => colortype == null || b.ColorType == colortype) //for filtering by ColorType
                 .OrderBy(photo => photo.PhotoId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize),
@@ -38,7 +38,7 @@ namespace WebUI.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = repository.Photos.Count()
                 },
-                CurrColorType = genre
+                CurrColorType = colortype
             };
             //полный список услуг
             //предоставляем в функцию данные, которыми необходимо заполнить

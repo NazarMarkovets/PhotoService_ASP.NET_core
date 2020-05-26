@@ -126,5 +126,35 @@ namespace UnitTest
             Assert.IsTrue(result[0].Name == "PService3" && result[0].ColorType == "Monochrome");
             Assert.IsTrue(result[1].Name == "PService5" && result[1].ColorType == "Monochrome");
         }
+
+
+        [TestMethod]
+        public void Can_CriateCategories()
+        {
+            //Организация
+            Mock<IPhotoRepository> mock = new Mock<IPhotoRepository>();
+            mock.Setup(m => m.Photos).Returns(new List<Photo>
+            {
+                //имитированая реалезация хранилища
+                new Photo {PhotoId = 1, Name = "PService1", ColorType = "Monochrome"},
+                new Photo {PhotoId = 2, Name = "PService2", ColorType = "Colorful"},
+                new Photo {PhotoId = 3, Name = "PService3", ColorType = "Monochrome"},
+                new Photo {PhotoId = 4, Name = "PService4", ColorType = "All"},
+                new Photo {PhotoId = 5, Name = "PService5", ColorType = "Colorful"}
+
+            });
+
+            NavController target = new NavController(mock.Object);
+
+            //действие запрашивается только монохромная категория услуг
+            List<string> result = ((IEnumerable<string>)target.Menu().Model).ToList();
+
+
+            Assert.AreEqual(result.Count(), 3);
+            Assert.AreEqual(result[0], "All");
+            Assert.AreEqual(result[1], "Colorful");
+            Assert.AreEqual(result[2], "Monochrome");
+        }
+
     }
 }
