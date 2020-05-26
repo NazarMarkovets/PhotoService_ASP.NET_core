@@ -34,7 +34,7 @@ namespace UnitTest
             PhotosController controller = new PhotosController(mock.Object);
             controller.pageSize = 3;
             //действие
-            PhotosListViewModel result = (PhotosListViewModel)controller.List(2).Model;
+            PhotosListViewModel result = (PhotosListViewModel)controller.List(null,2).Model;
             
             //Утверждение
             List<Photo> photos = result.Photos.ToList();
@@ -90,7 +90,7 @@ namespace UnitTest
             PhotosController controller = new PhotosController(mock.Object);
             controller.pageSize = 3;
             //действие
-            PhotosListViewModel result = (PhotosListViewModel)controller.List(2).Model;
+            PhotosListViewModel result = (PhotosListViewModel)controller.List(null,2).Model;
 
             PagingInfo pagingInfo = result.PagingInfo;
             Assert.AreEqual(pagingInfo.CurrentPage, 2);
@@ -99,6 +99,32 @@ namespace UnitTest
             Assert.AreEqual(pagingInfo.TotalPages, 2);
 
 
+        }
+
+        [TestMethod]
+        public void Can_Filter_PhotoServices()
+        {
+            //Организация
+            Mock<IPhotoRepository> mock = new Mock<IPhotoRepository>();
+            mock.Setup(m => m.Photos).Returns(new List<Photo>
+            {
+                new Photo {PhotoId = 1, Name = "PService1", ColorType = "Colorfull"},
+                new Photo {PhotoId = 2, Name = "PService2", ColorType = "Colorfull"},
+                new Photo {PhotoId = 3, Name = "PService3", ColorType = "Monochrome"},
+                new Photo {PhotoId = 4, Name = "PService4", ColorType = "AllColors"},
+                new Photo {PhotoId = 5, Name = "PService5", ColorType = "Monochrome"}
+
+            });
+
+            PhotosController controller = new PhotosController(mock.Object);
+            controller.pageSize = 3;
+            //действие запрашивается только монохромная категория услуг
+            List<Photo> result = ((PhotosListViewModel)controller.List("Monochrome", 1).Model).Photos.ToList();
+
+
+            Assert.AreEqual(result.Count(), 2);
+            Assert.IsTrue(result[0].Name == "PService3" && result[0].ColorType == "Monochrome");
+            Assert.IsTrue(result[1].Name == "PService5" && result[1].ColorType == "Monochrome");
         }
     }
 }

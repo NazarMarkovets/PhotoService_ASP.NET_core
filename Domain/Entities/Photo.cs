@@ -12,7 +12,7 @@ namespace Domain.Entities
         public string Name { get; set; }
         public string PhotoFormat { get; set; }
         public string Description { get; set; }
-        public string  ColorType{ get; set; }
+        public string  ColorType{ get; set; } //Genre
         public decimal Price { get; set; }
     }
     

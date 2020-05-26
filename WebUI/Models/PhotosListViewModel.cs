@@ -12,9 +12,6 @@ namespace WebUI.Models
 
         public PagingInfo PagingInfo { get; set; }
 
-        //public PagingInfo PagingInfo()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public string CurrColorType { get; set; }
     }
 }
