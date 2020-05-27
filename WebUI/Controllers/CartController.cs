@@ -18,28 +18,18 @@ namespace WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult Index(string returnUrl)
+        public ViewResult Index(ShopCart cart, string returnUrl)
         {
             return View(new CartIndexViewModel
             {
-                Cart = GetShopCart(),
+                //снабжение контроллера объектами cart
+                Cart = cart,
                 ReturnUrl = returnUrl
             });
         }
+
         
-        public ShopCart GetShopCart()
-        {
-            ShopCart cart = (ShopCart)Session["ShopCart"];
-            if(cart == null)
-            {
-                cart = new ShopCart();
-                Session["ShopCart"] = cart;
-            }
-            return cart;
-
-        }
-
-        public RedirectToRouteResult AddToCart(int photoId, string returnUrl)
+        public RedirectToRouteResult AddToCart(ShopCart cart,int photoId, string returnUrl)
         {
             Photo photo = repository.Photos
                 .FirstOrDefault(p => p.PhotoId == photoId);
@@ -47,14 +37,14 @@ namespace WebUI.Controllers
             if (photo != null)
             {
                 //GetCart() - средство состояния сеанса
-                GetShopCart().AddItem(photo,1);
+                cart.AddItem(photo,1);
             }
 
             return RedirectToAction("Index", new { returnUrl });
         }
 
         //RedirectToRouteResult - отправляет инструкцию перенаправления
-        public RedirectToRouteResult RemoveFromCart(int photoId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(ShopCart cart, int photoId, string returnUrl)
         {
             Photo photo = repository.Photos
                 .FirstOrDefault(p => p.PhotoId == photoId);
@@ -62,10 +52,16 @@ namespace WebUI.Controllers
             if (photo != null)
             {
                 
-                GetShopCart().RemoveLine(photo);
+                cart.RemoveLine(photo);
             }
 
             return RedirectToAction("Index", new { returnUrl });
+        }
+
+
+        public PartialViewResult Summary(ShopCart cart)
+        {
+            return PartialView(cart);
         }
     }
 }

@@ -3,6 +3,11 @@ using Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Abstract;
+using Moq;
+using WebUI.Controllers;
+using System.Web.Mvc;
+using WebUI.Models;
 
 namespace UnitTest
 {
@@ -121,6 +126,72 @@ namespace UnitTest
 
             //Подтверждение
             Assert.AreEqual(cart.Lines.Count(), 0);
+
+        }
+
+
+        [TestMethod]
+        //Добавление объектов с помощью Binder class
+        public void Can_Add_to_Cart()
+        {
+            //Организация
+            //Добавление выбраного товара в корзину
+            Mock<IPhotoRepository> mock = new Mock<IPhotoRepository>();
+            mock.Setup(m => m.Photos).Returns(new List<Photo>{
+                new Photo {PhotoId = 1,Name = "PhotoService1", ColorType = "Monochrome"}
+            }.AsQueryable());
+
+
+            //Действие
+            ShopCart cart = new ShopCart();
+            CartController cartController = new CartController(mock.Object);
+            cartController.AddToCart(cart, 1, null);
+
+            //Подтверждение
+            Assert.AreEqual(cart.Lines.Count(), 1);
+            Assert.AreEqual(cart.Lines.ToList()[0].Photo.PhotoId, 1);
+
+        }
+
+        [TestMethod]
+        //перенаправление на Index.cshtml после добавления книги
+        public void Can_Add_Photoserv_Tocard_AndShow()
+        {
+            //Организация
+            //Добавление выбраного товара в корзину
+            Mock<IPhotoRepository> mock = new Mock<IPhotoRepository>();
+            mock.Setup(m => m.Photos).Returns(new List<Photo>{
+                new Photo {PhotoId = 1,Name = "PhotoService1", ColorType = "Monochrome"}
+            }.AsQueryable());
+
+
+            //Действие
+            ShopCart cart = new ShopCart();
+            CartController cartController = new CartController(mock.Object);
+            RedirectToRouteResult result = cartController.AddToCart(cart, 2, "TestUrl");
+
+            //Подтверждение
+            Assert.AreEqual(result.RouteValues["action"], "Index");
+            Assert.AreEqual(result.RouteValues["returnUrl"], "TestUrl");
+
+        }
+
+
+        [TestMethod]
+        //перенаправление на Index.cshtml Корректная передача URL
+        public void Can_Add_URLcorrect_To_View_Index()
+        {
+            //Организация
+            ShopCart cart = new ShopCart();
+            CartController target = new CartController(null);
+
+
+            //Действие
+            CartIndexViewModel result = (CartIndexViewModel)target.Index(cart, "testURL").ViewData.Model;
+
+            //Подтверждение
+            Assert.AreSame(result.Cart, cart);
+            Assert.AreEqual(result.ReturnUrl, "testURL");
 
         }
 
