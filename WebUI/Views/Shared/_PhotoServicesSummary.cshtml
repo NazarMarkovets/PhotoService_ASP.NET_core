@@ -9,8 +9,19 @@
         </div>
         <div class="col-xs-2">
             <h3>
-                <strong class="pull-right label label-primary">@Model.Price.ToString("# грн")</strong>
+                <strong id ="price" style="margin-bottom:5px;" class="pull-right label label-primary">
+                @Model.Price.ToString("# грн")
+                </strong>
             </h3>
+
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+                <div class="pull-right">
+                    @Html.HiddenFor(x => x.PhotoId)
+                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                    <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                </div>
+            }
         </div>
     </div>
     <span class="lead">

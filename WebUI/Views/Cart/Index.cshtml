@@ -1,0 +1,43 @@
+﻿@model WebUI.Models.CartIndexViewModel
+
+@{
+    ViewBag.Title = "Pixel Studio : Ваша корзина";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+     <thead>
+         <tr>
+             <th>Count:</th>
+             <th>Name:</th>
+             <th class="text-right">Price:</th>
+             <th class="text-right">Total:</th>
+         </tr>
+     </thead>
+         <tbody>
+            @foreach (var line in Model.Cart.Lines)
+                 {
+                     <tr>
+                         <td class="text-center">@line.Quantity</td>
+                         <td class="text-left">@line.Photo.Name - @line.Photo.ColorType</td>
+                         <td class="text-right">@line.Photo.Price.ToString("# грн")</td>
+                         <td class="text-right">@((line.Quantity * line.Photo.Price).ToString("# грн"))</td>
+                     </tr>
+                 }
+         </tbody>
+     <tfoot>
+         <tr>
+             <td colspan="3" class="text-right">Total : </td>
+             <td class="text-right">
+                @Model.Cart.ComputeTotalValue().ToString("# грн")
+             </td>
+             
+         </tr>
+     </tfoot>
+     
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Продолжить покупку</a>
+</div>

@@ -73,6 +73,7 @@
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFPhotoRepository.cs" />
     <Compile Include="Entities\Photo.cs" />
+    <Compile Include="Entities\ShopCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
